@@ -92,7 +92,7 @@ When the script runs, it will convert the Google Sheet rows back to the original
 
 Remember to grant the Google Service Account email (found in your `credentials.json`) access to the Google Sheet to make this work.
 
-### i18n Configuration
+## Translation Script Configuration
 
 1. Copy `sync.example.js` to a new file, for example `sync.myapp.js`.
 2. Open `sync.myapp.js` and update the environment variables:
@@ -159,6 +159,6 @@ This project is licensed under the MIT License.
 
 ## Support
 
-For support, please email [support@email.com](mailto:support@email.com) or raise an issue in the GitHub repository.
+For support, please email [arnold@appit.ee](mailto:arnold@appit.ee) or raise an issue in the GitHub repository.
 
 
