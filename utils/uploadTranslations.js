@@ -17,7 +17,7 @@ async function uploadNewTranslations(args) {
 
   // Read base language json and manipulate structure
   const content = fs.readFileSync(path.join(I18N_FOLDER_PATH, `locales/${BASE_LANGUAGE}.json`), 'utf-8');
-  const etTranslations = JSON.parse(content);
+  const baseTranslations = JSON.parse(content);
 
 
   const { data } = await sheets.spreadsheets.values.get({
@@ -26,7 +26,7 @@ async function uploadNewTranslations(args) {
   });
 
   const externalKeys = tail(data.values).map(([context, key]) => `${context}:${key}`);
-  const localKeys = reduce(etTranslations, (result, value, context) => {
+  const localKeys = reduce(baseTranslations, (result, value, context) => {
 
     const keys = flatten(map(value, (value, key) => {
         if (typeof value === "string") {
@@ -48,9 +48,9 @@ async function uploadNewTranslations(args) {
     const [context, keyRaw] = split(keyPair, ':');
     const [key, pluralizationKey] = split(keyRaw, '.');
 
-    const etValue = pluralizationKey 
-    ? etTranslations[context][key][pluralizationKey]
-    : etTranslations[context][key];
+    const baseValue = pluralizationKey 
+    ? baseTranslations[context][key][pluralizationKey]
+    : baseTranslations[context][key];
 
     const otherValues = map(tail(LANGUAGES), (code) => {
         try {
@@ -66,7 +66,7 @@ async function uploadNewTranslations(args) {
 
     const sheetKey = pluralizationKey ? `${key}.${pluralizationKey}` : key;
     
-    return [context, sheetKey, etValue, ...otherValues]
+    return [context, sheetKey, baseValue, ...otherValues]
   });
 
   const updatedValues = concat(data.values, sheetData);
